@@ -26,10 +26,14 @@ function addTodo() {
     console.log(todos);
     input.val('')
 
+    updateView(todos);
+}
+
+function updateView(todosArg) {
     const ul = $('#listToDo');
     ul.html('');
-    todos.forEach((todo, index) => {
-        const selector = ul.append(`<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`);
+    todosArg.forEach(todo => {
+        ul.append(`<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`);
         // const todoHtmlElem = selector[0].children[index];
         // const checkBox = todoHtmlElem.children[0].children[0];
         $(`#${todo.id} div input`).on('click', { todoId: todo.id }, todoCheckboxClicked);
@@ -44,10 +48,8 @@ $('#addButton').on('click', function() {
 
 
 function mark() {
-    const ul = $('#listToDo');
-    const finishedTodos = todos.filter(todo => Boolean(todo.status));
-
-    ul.html('');
+    const unfinishedTodos = todos.filter(todo => !Boolean(todo.status));
+    updateView(unfinishedTodos);
 }
 
 $('#addComplete').on('click', function() {
