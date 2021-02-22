@@ -1,7 +1,6 @@
 const todos = [];
 const input = $('#task_value');
 let idGen = 0;
-let strs = '';
 
 
 
@@ -52,7 +51,6 @@ function mark() {
     const finishedTodos = todos.filter(todo => Boolean(todo.status));
 
     ul.html('');
-    ul.html(strs);
 }
 
 $('#addComplete').on('click', function() {
