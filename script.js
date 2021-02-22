@@ -1,9 +1,13 @@
 const todos = [];
 const input = $('#task_value');
 let idGen = 0;
-let strs = '';
 
-
+function todoCheckboxClicked(event) {
+    const todoId = event.data.todoId;
+    const checked = event.target.checked;
+    const todo = todos.find(todo => todo.id === todoId);
+    todo.status = checked;
+}
 
 function addTodo() {
     let task = input.val();
@@ -16,29 +20,25 @@ function addTodo() {
         text: task,
         status: false,
         id: `todo_${idGen}`,
-        isShown: false
     };
     
     todos.push(todo);
-
     console.log(todos);
     input.val('')
 
-    render();
+    updateView(todos);
 }
 
-
-function render() {
+function updateView(todosArg) {
     const ul = $('#listToDo');
-    todos.forEach(todo => {
-        if (!todo.isShown) {
-            const str = `<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`;
-            strs += str;
-            todo.isShown = true;
-        };
-    });
     ul.html('');
-    ul.html(strs);
+    todosArg.forEach(todo => {
+        ul.append(`<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`);
+        // const todoHtmlElem = selector[0].children[index];
+        // const checkBox = todoHtmlElem.children[0].children[0];
+        $(`#${todo.id} div input`).on('click', { todoId: todo.id }, todoCheckboxClicked);
+        // debugger;
+    });
 }
 
 
@@ -48,11 +48,8 @@ $('#addButton').on('click', function() {
 
 
 function mark() {
-    const ul = $('#listToDo');
-    const finishedTodos = todos.filter(todo => Boolean(todo.status));
-
-    ul.html('');
-    ul.html(strs);
+    const unfinishedTodos = todos.filter(todo => !Boolean(todo.status));
+    updateView(unfinishedTodos);
 }
 
 $('#addComplete').on('click', function() {
