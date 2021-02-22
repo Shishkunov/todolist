@@ -15,29 +15,17 @@ function addTodo() {
         text: task,
         status: false,
         id: `todo_${idGen}`,
-        isShown: false
     };
     
     todos.push(todo);
-
     console.log(todos);
     input.val('')
 
-    updateState();
-}
-
-
-function updateState() {
     const ul = $('#listToDo');
-    todos.forEach(todo => {
-        if (!todo.isShown) {
-            const str = `<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`;
-            strs += str;
-            todo.isShown = true;
-        };
-    });
     ul.html('');
-    ul.html(strs);
+    todos.forEach(todo => {
+        ul.append(`<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`);
+    });
 }
 
 
