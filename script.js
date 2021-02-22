@@ -24,11 +24,11 @@ function addTodo() {
     console.log(todos);
     input.val('')
 
-    render();
+    updateState();
 }
 
 
-function render() {
+function updateState() {
     const ul = $('#listToDo');
     todos.forEach(todo => {
         if (!todo.isShown) {
