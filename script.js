@@ -43,14 +43,13 @@ $('#addButton').on('click', function() {
 });
 
 
-function markCompleted() {
-    const finishedTodos = todos
-        .filter(function (todo) {
-            return Boolean(todo.status);
-        });
-    updateView(finishedTodos, $('#completedTodoList'));
+function markAllCompleted() {
+    todos.forEach(function(todo) {
+        todo.status = true;
+    });
+    updateView(todos, $('#listToDo'));
 }
 
 $('#markAllComplete').on('click', function() {
-    markCompleted();
+    markAllCompleted();
 });
