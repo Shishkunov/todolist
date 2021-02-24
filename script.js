@@ -24,20 +24,16 @@ function addTodo() {
     
     todos.push(todo);
     console.log(todos);
-    input.val('')
+    input.val('');
 
-    updateView(todos);
+    updateView(todos, $('#listToDo'));
 }
 
-function updateView(todosArg) {
-    const ul = $('#listToDo');
+function updateView(todosArg, ul) {
     ul.html('');
     todosArg.forEach(todo => {
         ul.append(`<li class = "task-li" id=${todo.id}><div><input type="checkbox" ${todo.status ? 'checked' : ''}>${todo.text}<button class = "del-btn">delete</button></div></li>`);
-        // const todoHtmlElem = selector[0].children[index];
-        // const checkBox = todoHtmlElem.children[0].children[0];
         $(`#${todo.id} div input`).on('click', { todoId: todo.id }, todoCheckboxClicked);
-        // debugger;
     });
 }
 
@@ -47,11 +43,14 @@ $('#addButton').on('click', function() {
 });
 
 
-function mark() {
-    const unfinishedTodos = todos.filter(todo => !Boolean(todo.status));
-    updateView(unfinishedTodos);
+function markCompleted() {
+    const finishedTodos = todos
+        .filter(function (todo) {
+            return Boolean(todo.status);
+        });
+    updateView(finishedTodos, $('#completedTodoList'));
 }
 
-$('#addComplete').on('click', function() {
-    mark();
+$('#markAllComplete').on('click', function() {
+    markCompleted();
 });
