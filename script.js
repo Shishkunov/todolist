@@ -2,6 +2,12 @@ const todos = [];
 const input = $('#task_value');
 let idGen = 0;
 
+function updateCounters() {
+    const finishedTodos = todos.filter(todo => todo.status === true);
+    $('#finishedCount').html(`Finished ${finishedTodos.length}`);
+    $('#unFinishedCount').html(`Unfinished ${todos.length - finishedTodos.length}`);
+}
+
 function todoCheckboxClicked(event) {
     const todoId = event.data.todoId;
     const checked = event.target.checked;
@@ -12,6 +18,7 @@ function todoCheckboxClicked(event) {
         const finishedTodos = todos.filter(todo => todo.status === true);
         updateView(finishedTodos, $('#completedTodoList'));
     }
+    updateCounters();
 }
 
 function removeTodo(event) {
@@ -24,6 +31,7 @@ function removeTodo(event) {
     updateView(todos, $('#listToDo'));
     const finishedTodos = todos.filter(todo => todo.status === true);
     updateView(finishedTodos, $('#completedTodoList'));
+    updateCounters();
 }
 
 function addTodo() {
@@ -58,6 +66,7 @@ function updateView(todosArg, ul) {
 
 $('#addButton').on('click', function() {
     addTodo();
+    updateCounters();
 });
 
 
@@ -67,6 +76,7 @@ function markAllCompleted() {
     });
     updateView(todos, $('#listToDo'));
     updateView(todos, $('#completedTodoList'));
+    updateCounters();
 }
 
 $('#markAllComplete').on('click', function() {
