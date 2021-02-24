@@ -53,6 +53,7 @@ function markAllCompleted() {
         todo.status = true;
     });
     updateView(todos, $('#listToDo'));
+    updateView(todos, $('#completedTodoList'));
 }
 
 $('#markAllComplete').on('click', function() {
