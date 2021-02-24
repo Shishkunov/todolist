@@ -6,7 +6,12 @@ function todoCheckboxClicked(event) {
     const todoId = event.data.todoId;
     const checked = event.target.checked;
     const todo = todos.find(todo => todo.id === todoId);
+    const previousState = todo.status;
     todo.status = checked;
+    if (previousState !== checked) {
+        const finishedTodos = todos.filter(todo => todo.status === true);
+        updateView(finishedTodos, $('#completedTodoList'));
+    }
 }
 
 function addTodo() {
